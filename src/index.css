@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-black text-white;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl;
+  }
+  
+  .btn-primary {
+    @apply px-8 py-3 bg-gold text-black font-semibold rounded-full transition-all duration-300 hover:bg-gold-light hover:shadow-gold active:scale-95;
+  }
+  
+  .btn-outline {
+    @apply px-8 py-3 border border-gold text-gold font-semibold rounded-full transition-all duration-300 hover:bg-gold hover:text-black active:scale-95;
+  }
+  
+  .text-gold-gradient {
+    @apply bg-gold-gradient bg-clip-text text-transparent;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-black;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gold/50 rounded-full hover:bg-gold;
+}
+
+/* Page Transitions */
+.page-enter {
+  opacity: 0;
+}
+.page-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+.page-exit {
+  opacity: 1;
+}
+.page-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}
