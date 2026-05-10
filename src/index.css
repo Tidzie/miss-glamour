@@ -4,11 +4,12 @@
 
 @layer base {
   body {
-    @apply bg-black text-white;
+    @apply bg-black text-white overflow-x-hidden w-full;
+    -webkit-tap-highlight-color: transparent;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-playfair;
+    @apply font-playfair leading-tight;
   }
 }
 

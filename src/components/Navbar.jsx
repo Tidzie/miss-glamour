@@ -42,61 +42,85 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden xl:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link 
               key={link.path}
               to={link.path}
-              className={`text-sm font-medium tracking-widest uppercase transition-colors hover:text-gold ${
+              className={`text-xs font-medium tracking-widest uppercase transition-all duration-300 hover:text-gold relative group ${
                 location.pathname === link.path ? 'text-gold' : 'text-white/80'
               }`}
             >
               {link.name}
+              <span className={`absolute -bottom-1 left-0 w-0 h-[1px] bg-gold transition-all duration-300 group-hover:w-full ${location.pathname === link.path ? 'w-full' : ''}`}></span>
             </Link>
           ))}
-          <Link to="/registration" className="btn-primary py-2 px-6 text-sm">
+          <Link to="/registration" className="btn-primary py-2 px-6 text-xs uppercase tracking-widest">
             Join Now
           </Link>
         </div>
 
         {/* Mobile Toggle */}
-        <button 
-          className="lg:hidden text-white"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        <div className="flex xl:hidden items-center gap-4">
+          <Link to="/registration" className="btn-primary py-1.5 px-4 text-[10px] uppercase tracking-widest">
+            Join
+          </Link>
+          <button 
+            className="text-white p-2 hover:text-gold transition-colors"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-black/95 backdrop-blur-xl border-b border-gold/10 overflow-hidden"
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 lg:hidden bg-black/98 backdrop-blur-2xl z-[60]"
           >
-            <div className="flex flex-col p-6 gap-4">
-              {navLinks.map((link) => (
-                <Link 
+            <div className="flex justify-end p-8">
+               <button onClick={() => setIsOpen(false)} className="text-white hover:text-gold">
+                  <X size={32} />
+               </button>
+            </div>
+            <div className="flex flex-col items-center justify-center h-full -mt-20 gap-8">
+              {navLinks.map((link, i) => (
+                <motion.div
                   key={link.path}
-                  to={link.path}
-                  className={`text-lg font-medium tracking-widest uppercase py-2 ${
-                    location.pathname === link.path ? 'text-gold' : 'text-white'
-                  }`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <Link 
+                    to={link.path}
+                    className={`text-2xl font-playfair font-bold tracking-widest uppercase ${
+                      location.pathname === link.path ? 'text-gold' : 'text-white'
+                    }`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
+              ))}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navLinks.length * 0.1 }}
+              >
+                <Link 
+                  to="/registration" 
+                  className="btn-primary px-12 py-4 text-sm mt-4"
                   onClick={() => setIsOpen(false)}
                 >
-                  {link.name}
+                  Join the Movement
                 </Link>
-              ))}
-              <Link 
-                to="/registration" 
-                className="btn-primary text-center mt-4"
-                onClick={() => setIsOpen(false)}
-              >
-                Join Now
-              </Link>
+              </motion.div>
             </div>
           </motion.div>
         )}
